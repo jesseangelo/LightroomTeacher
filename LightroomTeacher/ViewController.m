@@ -14,9 +14,8 @@
 
 @implementation ViewController
 
-NSBundle *mainBundle;
-NSString *myFile;
-NSURL *myFileURL;
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,20 +30,36 @@ NSURL *myFileURL;
     
     [player play];
      */
-    mainBundle = [NSBundle mainBundle];
-    myFile = [mainBundle pathForResource: @"movie" ofType: @"mov"];
-    myFileURL = [[NSURL alloc]initFileURLWithPath:myFile];
-    //NSLog(@"Main bundle path: %@", mainBundle);
+        //NSLog(@"Main bundle path: %@", mainBundle);
     //NSLog(@"myFile path: %@", myFile);
 }
 
--(void)playMovie:(id)sender
+-(void)playHTTPMovie:(id)sender
 {
-
-    //NSURL *url = [NSURL URLWithString: @"http://www.ebookfrenzy.com/ios_book/movie/movie.mov"];
-    //_moviePlayer =  [[MPMoviePlayerController alloc] initWithContentURL:url];
+    NSURL *url = [NSURL URLWithString: @"http://www.ebookfrenzy.com/ios_book/movie/movie.mov"];
+    _moviePlayer =  [[MPMoviePlayerController alloc] initWithContentURL:url];
     
-    //NSURL *url = [[NSURL alloc]initFileURLWithPath: @"../movie.mov"];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(moviePlayBackDidFinish:)
+                                                 name:MPMoviePlayerPlaybackDidFinishNotification
+                                               object:_moviePlayer];
+    
+    _moviePlayer.controlStyle = MPMovieControlStyleDefault;
+    _moviePlayer.shouldAutoplay = YES;
+    [self.view addSubview:_moviePlayer.view];
+    [_moviePlayer setFullscreen:YES animated:YES];
+     
+}
+
+
+-(void)playLocalMovie:(id)sender
+{
+    NSString *myFile;
+    NSURL *myFileURL;
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    myFile = [mainBundle pathForResource: @"movie" ofType: @"mov"];
+    myFileURL = [[NSURL alloc]initFileURLWithPath:myFile];
     _moviePlayer =  [[MPMoviePlayerController alloc] initWithContentURL:myFileURL];
     
     [[NSNotificationCenter defaultCenter] addObserver:self

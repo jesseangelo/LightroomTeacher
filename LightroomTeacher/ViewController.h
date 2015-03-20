@@ -13,6 +13,11 @@
 @interface ViewController : UIViewController
 
 @property (strong, nonatomic) MPMoviePlayerController *moviePlayer;
-- (IBAction)playMovie:(id)sender;
+
+
+
+- (IBAction)playHTTPMovie:(id)sender;
+- (IBAction)playLocalMovie:(id)sender;
+
 @end
 
