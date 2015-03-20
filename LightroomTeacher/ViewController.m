@@ -14,6 +14,10 @@
 
 @implementation ViewController
 
+NSBundle *mainBundle;
+NSString *myFile;
+NSURL *myFileURL;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -27,14 +31,21 @@
     
     [player play];
      */
+    mainBundle = [NSBundle mainBundle];
+    myFile = [mainBundle pathForResource: @"movie" ofType: @"mov"];
+    myFileURL = [[NSURL alloc]initFileURLWithPath:myFile];
+    //NSLog(@"Main bundle path: %@", mainBundle);
+    //NSLog(@"myFile path: %@", myFile);
 }
 
 -(void)playMovie:(id)sender
 {
-    NSURL *url = [NSURL URLWithString: @"http://www.ebookfrenzy.com/ios_book/movie/movie.mov"];
+
+    //NSURL *url = [NSURL URLWithString: @"http://www.ebookfrenzy.com/ios_book/movie/movie.mov"];
+    //_moviePlayer =  [[MPMoviePlayerController alloc] initWithContentURL:url];
     
-    _moviePlayer =  [[MPMoviePlayerController alloc]
-                     initWithContentURL:url];
+    //NSURL *url = [[NSURL alloc]initFileURLWithPath: @"../movie.mov"];
+    _moviePlayer =  [[MPMoviePlayerController alloc] initWithContentURL:myFileURL];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(moviePlayBackDidFinish:)
